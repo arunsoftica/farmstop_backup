@@ -1,0 +1,21 @@
+https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=26.4492273,80.3082599&destinations=26.4906842,80.2847083|26.5560461,80.223289&key=AIzaSyDV7cINGIE3Re1ACdMWbgcseonHpubiBjE
+
+https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=26.4492273,80.3082599&destinations=26.4906842,80.2847083|26.5560461,80.223289&key=AIzaSyDNbZbyy_FZQe6__nYJvnQw78QkN-MMy10
+
+https://maps.googleapis.com/maps/api/distancematrix/json?origins=Boston,MA|Charlestown,MA&destinations=Lexington,MA|Concord,MA&departure_time=now&key=AIzaSyDV7cINGIE3Re1ACdMWbgcseonHpubiBjE
+
+https://maps.googleapis.com/maps/api/distancematrix/json?origins=Boston,MA|Charlestown,MA&destinations=Lexington,MA|Concord,MA&departure_time=now&key=AIzaSyDV7cINGIE3Re1ACdMWbgcseonHpubiBjE
+
+26.4701311,80.3470715
+
+
+$dis = $jd->rows[0]->elements->distance->value;
+        $elements = array();
+        
+          if($dis->distance->value > '7000'){
+          $elements[]  = $dis->distance->value;
+          }
+        
+$this->db->like('first_name', $stuname)->where('s_id', $res);
+$order = sprintf('FIELD(id, %s)', implode(', ', $id));
+print_r($this->db->last_query());exit;

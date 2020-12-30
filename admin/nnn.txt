@@ -1,0 +1,98 @@
+<?php
+/***
+Template Name:Document
+**/
+get_header(); 
+// retrieves the attachment ID from the file URL
+function pippin_get_image_id($image_url) {
+    global $wpdb;
+    $attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url )); 
+        return $attachment[0]; 
+}
+?>
+<script src="<?php bloginfo('template_url');?>/vendor/jquery/jquery.min.js"></script>
+<script>
+    
+  $(document).on('click', '.pdffile', function (e) {
+        //alert($(this).text());
+        var txt = $(this).text();
+        //var arr = $(this).text().split('/');    
+          //alert(arr);
+          $.ajax({
+              type: 'POST',
+        
+              url: '<?php bloginfo('template_url');?>/download.php',
+        
+              data: {
+                  'txt': txt
+                  
+              },
+        
+              success: function(response) 
+        
+              {
+              alert(response);
+              /*$('#msg').html('');
+        
+              $('#msg').html('Message sent successfully..');
+              $("#contactForm")[0].reset();*/
+              
+              }
+          });
+          
+          
+        });
+    
+    
+</script>
+
+<?php
+
+
+
+    $wpb_all_query = new WP_QUERY(array('post_type' => 'document', 'post_status' => 'publish')); 
+
+    if ( $wpb_all_query->have_posts() ) : 
+            while ( $wpb_all_query->have_posts() ) : 
+            $wpb_all_query->the_post();  ?>
+             <div >
+              
+                <h4><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h4>
+                <p><a href="#"  ><?php echo $image_url = rwmb_meta( 'doc-upload_doc' ) ?></a></p>
+                <?php
+                // store the image ID in a var
+                $image_id = pippin_get_image_id($image_url);
+                
+                // print the id
+                echo $image_id;
+                $image_attributes = wp_get_attachment_image_src( $image_id);
+                if ( $image_attributes ) : ?>
+                    <img src="<?php echo $image_attributes[0]; ?>" width="<?php echo $image_attributes[1]; ?>" height="<?php echo $image_attributes[2]; ?>" />
+                <?php endif;
+                
+                ?>
+                <?php //echo wp_get_attachment_url($image_id); 
+                $parsed = parse_url( wp_get_attachment_url($image_id) );
+                //print_r(dirname( $parsed [ 'path' ] ));
+                //Array ( [scheme] => https [host] => control.softica.in [path] => /kaso/wp-content/uploads/2019/01/1.jpg )
+                 $url    = dirname( $parsed [ 'path' ] ) . '/' . rawurlencode( basename( $parsed[ 'path' ] ) );
+                echo $media = get_attached_media( 'image' );
+                ?> 
+                <p></p><a class="pdffile" href="#"><?php echo $parsed['scheme'].'://'.$parsed['host'].dirname( $parsed [ 'path' ] ) . '/' . rawurlencode( basename( $parsed[ 'path' ] ) ); ?></a></p>
+            </div><!--close about-in-->
+            <?php endwhile; ?>
+        <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php get_footer();?>
